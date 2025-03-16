@@ -95,7 +95,7 @@ Below are queries designed to answer key business questions.
 │   ├── fetch_rewards_assessment.ipynb
 │   ├── fetch_rewards.db
 │   ├── pyproject.toml
-│   ├── stakeholder_email.docx
+│   ├── stakeholder_email.pdf
 │   ├── uv.lock
 ├── README.md
 ```
