@@ -14,7 +14,7 @@ The provided dataset consists of **three JSON files**:
 A structured relational model was created to optimize querying. Below is the **Entity Relationship Diagram (ERD):**
 
 <p align="center">
-    <img src="../fetch-analytics/fetch_analytics_datamodel.png" alt="Data Model Diagram" width="600"/>
+    <img src="fetch-analytics/fetch_analytics_datamodel.png" alt="Data Model Diagram" width="600"/>
 </p>
 
 ### **Schema Overview**
@@ -55,17 +55,47 @@ Below are queries designed to answer key business questions.
     GROUP BY r.rewards_receipt_status
 ```
 
+## 📌 3️⃣ Data Quality Issues & Solutions
+
+### **Identified Data Quality Issues**
+
+| **Issue Type**            | **Dataset**           | **Problem**                                             |
+|---------------------------|----------------------|--------------------------------------------------------|
+| **Missing Values**        | `users.json`         | `state`, `signUpSource`, `lastLogin` are missing in many records |
+| **Duplicate Records**     | `users.json`         | `_id` field has duplicates                            |
+| **Inconsistent Data Types** | `receipts.json`  | `purchaseDate` and `createDate` stored as string instead of datetime |
+| **Outliers**             | `receipts.json`      | `totalSpent` contains extreme values                  |
+| **Referential Integrity** | `receipts.json & users.json` | `userId` in receipts does not always exist in users |
+
+---
+
+### **Potential Resolutions (To Be Discussed with Business)**
+- **Missing Values:** Should we **impute missing values** or exclude records where key attributes (e.g., `state`, `signUpSource`) are missing?
+- **Duplicate Records:** Should duplicates be **merged, flagged, or removed**? What criteria should determine uniqueness?
+- **Inconsistent Data Types:** Can we safely **convert `purchaseDate` and `createDate` to `DATETIME`**, or do some records need manual review?
+- **Outliers:** Should we remove receipts with **extremely high `totalSpent` values**, or do they represent valid business scenarios?
+- **Referential Integrity:** How should we handle **orphaned receipts** where `userId` is missing from `users.json`?
+
+---
+
+### **Next Steps**
+- Discuss data quality issues and potential resolutions with business stakeholders.
+- Implement appropriate fixes based on business priorities.
+- Validate changes before integrating them into reporting and analytics.
 
 ## 📂 Repository Structure
+```
 ├── data/
 │   ├── brands.json
 │   ├── receipts.json
 │   ├── users.json
 ├── fetch-analytics/
 │   ├── fetch_analytics_datamodel.png
-|   ├── utils.py
+│   ├── utils.py
 │   ├── fetch_rewards_assessment.ipynb
 │   ├── fetch_rewards.db
 │   ├── pyproject.toml
-|   ├── uv.lock
+│   ├── stakeholder_email.docx
+│   ├── uv.lock
 ├── README.md
+```
